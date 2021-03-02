@@ -7,7 +7,8 @@ Users can interact with the database to create new courses, retrieve info on exi
 
 To make changes to the database, it will be requires to log in so the API will allow users to create a new account or retrieve info on an existing account. 
 
-run "npm install" and then "npm run seed" to get everything started.
+run "npm install" and then "npm run seed" to populate database with seed info. 
+run "npm start" to get API started.
 
 # Extra Credit
 1) Email validation has been added to the User model to make sure it is formated correctly.
