@@ -65,6 +65,7 @@ router.get('/courses/:id', asyncHandler( async(req, res) => {
         attributes: { exclude: ['password','createdAt','updatedAt']},
       }
     ],
+    attributes: { exclude: ['createdAt', 'updatedAt'] }
   });
   res.json(course);
 }));
@@ -74,7 +75,7 @@ router.get('/courses/:id', asyncHandler( async(req, res) => {
 router.post('/courses',authenticateUser, asyncHandler( async(req, res) => {
   try {
     const course = await Course.create(req.body);
-    res.location(`/courses/${course.id}`).status(201).end();
+    res.location(`/api/courses/${course.id}`).status(201).end();
   } catch(error) {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
       const errors = error.errors.map(err => err.message);
@@ -95,7 +96,7 @@ router.put('/courses/:id',authenticateUser, asyncHandler( async(req, res) => {
       await course.update(req.body);
       res.status(204).end();
     } else {
-      res.status(403).end();
+      res.status(403).json({message: 'Not authorized to update record.'}).end();
     }
   } catch(error) {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
@@ -117,7 +118,7 @@ router.delete('/courses/:id',authenticateUser, asyncHandler( async(req,res) => {
       await course.destroy();
       res.status(204).end();
     } else {
-      res.status(403).end();
+      res.status(403).json({message: 'Not authorized to update record.'}).end();
     }
     
   } else {
